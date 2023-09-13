@@ -1,0 +1,31 @@
+#!/bin/bash  
+
+# Extracts the ticket number from the branch name and automatically 
+# prepends all commit messages with it: 
+#
+# Examples:
+#
+# * myproj-123-some-feature → [MYPROJ-123]
+# * feature/myproj-456-some-other-feature → [MYPROJ-456]
+# * bugfix/myproj-789 → [MYPROJ-789]
+# * 123_some_feature → [123]
+
+# Exit if there are no refs/commits in the repo yet
+HEADS_DIR=$(realpath -e $(git rev-parse --git-path refs/heads))
+if [[ ! -d "$HEADS_DIR" ]] || [[ -z `ls -A "$HEADS_DIR"` ]]; then
+  exit 0;
+fi
+
+FILE=$1  
+MESSAGE=$(cat $FILE) 
+TICKET=[$(git rev-parse --abbrev-ref HEAD \
+  | grep -Eo '^(\w+/)?(\w+[-_])?[0-9]+' \
+  | grep -Eo '(\w+[-])?[0-9]+' \
+  | tr "[:lower:]" "[:upper:]")]
+
+# Exit if ticket number is empty or already in the message
+if [[ $TICKET == "[]" || "$MESSAGE" == "$TICKET"* ]]; then  
+  exit 0;  
+fi  
+  
+echo "$TICKET $MESSAGE" > $FILE
