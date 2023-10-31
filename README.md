@@ -1,6 +1,6 @@
 # Git Hooks
 
-This repository can be used as a Git `template-directory` and contains useful hooks for automation and simplification when working with Git.
+This repository provides useful hooks for automating and simplifying working with `Git` and can be used as a `template-directory` for new and already existing Git repositories.
 
 ## Available Hooks
 
@@ -53,3 +53,5 @@ git init
 
 Reinitialized existing Git repository...
 ```
+
+After reinitialization the hooks immediately work for the already existing Git repository.
