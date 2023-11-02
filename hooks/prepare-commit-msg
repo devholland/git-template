@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Exit if there are no refs/commits in the repo yet
-HEADS_DIR=$(realpath -e $(git rev-parse --git-path refs/heads))
+HEADS_DIR=$(realpath $(git rev-parse --git-path refs/heads))
 if [[ ! -d "$HEADS_DIR" ]] || [[ -z `ls -A "$HEADS_DIR"` ]]; then
   exit 0;
 fi
